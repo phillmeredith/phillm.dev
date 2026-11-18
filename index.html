@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>phillm.dev</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0A0C; --card:#111114; --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.14);
+  --t1:#F3F3F1; --t2:#9C9CA6; --t3:#5E5E68;
+  --sans:'Inter Tight',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#0A0A0C}}
+:root[data-theme="dark"]{--bg:#0A0A0C}
+*{margin:0;padding:0;box-sizing:border-box}
+html{background:var(--bg)}
+body{background:var(--bg);color:var(--t1);font-family:var(--sans);-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:72px 32px 56px}
+
+header{display:flex;justify-content:space-between;align-items:baseline;gap:24px;margin-bottom:56px}
+.mark{display:flex;align-items:center;gap:12px;font-weight:600;font-size:17px;letter-spacing:-.3px}
+.orb{width:22px;height:22px;border-radius:50%;background:conic-gradient(from 0deg,#7AA2FF,#C79BFF,#FF8FB8,#FFD28A,#8FE3B0,#7AA2FF);animation:spin 9s linear infinite;filter:saturate(.9)}
+.orb::after{content:'';display:block;width:100%;height:100%;border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.55),transparent 55%)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sub{color:var(--t2);font-size:15px}
+.gh{font-family:var(--mono);font-size:12px;color:var(--t2);transition:color .2s}
+.gh:hover{color:var(--t1)}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{position:relative;border-radius:18px;background:var(--card);border:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:16px;overflow:hidden;
+  opacity:0;transform:translateY(12px);animation:rise .8s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i)*70ms + 120ms);
+  transition:border-color .3s, transform .4s cubic-bezier(.2,.8,.2,1)}
+@keyframes rise{to{opacity:1;transform:none}}
+.card::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;
+  background:radial-gradient(380px circle at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--c) 16%,transparent),transparent 60%)}
+.card:hover{border-color:var(--line2)}
+.card:hover::before{opacity:1}
+.art{aspect-ratio:4/3;border-radius:12px;background:#0C0C0F;border:1px solid var(--line);position:relative;overflow:hidden;display:grid;place-items:center}
+.art.dev2{background:radial-gradient(120% 90% at 50% 100%,color-mix(in oklab,var(--c) 22%,#0C0C0F),#0C0C0F 70%)}
+.dev2 .dev{position:absolute;left:50%;top:10%;width:44%;aspect-ratio:390/844;transform:translate(-50%,8%);opacity:0;border-radius:15% / 7%;padding:2.2%;background:linear-gradient(145deg,#3a3d45,#16171b 45%,#2a2c32);box-shadow:0 0 0 1px rgba(255,255,255,.08),0 30px 60px -20px rgba(0,0,0,.8);transition:opacity .9s ease,transform 1.4s cubic-bezier(.2,.8,.2,1)}
+.dev2 .dev.in{opacity:1;transform:translate(-50%,0)}
+.card:hover .dev2 .dev.in{transform:translate(-50%,-4%)}
+.dev2 .dev img{position:relative;inset:auto;width:100%;height:100%;border-radius:13% / 6%;object-fit:cover;object-position:top;padding-top:13%;background:var(--sb);opacity:1;transform:none;transition:none}
+.dev2 .dev::before{content:'';position:absolute;top:3.6%;left:50%;width:30%;height:3.4%;transform:translateX(-50%);background:#000;border-radius:99px;z-index:2}
+.slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .6s ease,visibility 0s .6s}
+.slide.on{opacity:1;visibility:visible;transition:opacity .6s ease}
+.dev2 .ipad{position:absolute;left:50%;top:9%;width:80%;aspect-ratio:4/3;box-sizing:content-box;transform:translate(-50%,8%);opacity:0;border-radius:5% / 6.6%;padding:2.4%;background:linear-gradient(145deg,#3a3d45,#16171b 45%,#2a2c32);box-shadow:0 0 0 1px rgba(255,255,255,.08),0 30px 60px -20px rgba(0,0,0,.8);transition:opacity .9s ease,transform 1.4s cubic-bezier(.2,.8,.2,1)}
+.dev2 .ipad.in{opacity:1;transform:translate(-50%,0)}
+.card:hover .dev2 .ipad.in{transform:translate(-50%,-3%)}
+.dev2 .ipad img{position:relative;inset:auto;display:block;width:100%;height:100%;border-radius:2.6% / 3.5%;object-fit:cover;object-position:top;opacity:1;transform:none;transition:none}
+.slide .dev{width:40%}
+.nav{position:absolute;top:50%;z-index:3;width:32px;height:32px;margin-top:-16px;display:grid;place-items:center;padding:0;border:1px solid rgba(255,255,255,.08);border-radius:50%;background:rgba(13,13,17,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--t1);cursor:pointer;opacity:0;transition:opacity .3s ease,background .3s ease,color .3s ease,transform .3s ease}
+.nav.prev{left:10px}.nav.next{right:10px}
+.nav svg{display:block;width:16px;height:16px}
+.card:hover .nav,.nav:focus-visible{opacity:1}
+.nav:hover{color:var(--c);background:rgba(13,13,17,.8)}
+.nav.prev:hover{transform:translateX(-2px)}.nav.next:hover{transform:translateX(2px)}
+.nav:focus-visible{outline:2px solid var(--c);outline-offset:2px}
+@media (hover:none){.nav{opacity:1}}
+.at-first .prev,.at-last .next{visibility:hidden;pointer-events:none}
+.dots{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);display:flex;gap:6px;padding:6px 8px;border-radius:99px;background:rgba(13,13,17,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:3}
+.dot{width:6px;height:6px;padding:0;border:0;border-radius:99px;background:rgba(255,255,255,.35);cursor:pointer;transition:width .3s ease,background .3s ease}
+.dot.on{width:16px;background:var(--c)}
+.dot:focus-visible{outline:2px solid var(--c);outline-offset:2px}
+.art svg{width:100%;height:100%;display:block}
+.art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;opacity:0;transform:scale(1.035);transition:opacity .9s ease,transform 1.4s cubic-bezier(.2,.8,.2,1)}
+.art img.in{opacity:1;transform:scale(1)}
+.card:hover .art img.in{transform:scale(1.03)}
+.art::after{content:'';position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);pointer-events:none}
+.top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+h2{font-size:18px;font-weight:600;letter-spacing:-.3px}
+.for{font-family:var(--mono);font-size:11px;color:var(--t3);white-space:nowrap}
+p{color:var(--t2);font-size:14px;line-height:1.5}
+.link{margin-top:auto;display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:12px;color:var(--t2);padding-top:12px;border-top:1px solid var(--line)}
+.link .ar{display:inline-block;transition:transform .35s cubic-bezier(.2,.8,.2,1),color .3s}
+a.link{margin:0 -18px -18px;padding:14px 18px 18px;transition:color .3s,background .3s}
+a.link:hover{color:var(--t1);background:color-mix(in oklab,var(--c) 8%,transparent)}
+a.link:hover .ar{transform:translate(3px,-3px);color:var(--c)}
+a.link:focus-visible{outline:2px solid var(--c);outline-offset:-2px}
+.priv{color:var(--t3)}
+
+footer{margin-top:56px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--t3)}
+
+/* ---------- little animations ---------- */
+.s{stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.art{color:var(--c)}
+/* kingdom: paw trail */
+.paw{opacity:0;animation:paw 4.2s infinite}
+@keyframes paw{0%,6%{opacity:0;transform:scale(.6)}12%{opacity:1;transform:none}60%{opacity:.9}80%,100%{opacity:0}}
+/* stables: hills drifting */
+.hill{animation:drift linear infinite}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* card dex: fan */
+.cd{transform-origin:150px 128px;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.cd1{animation:fan1 5s ease-in-out infinite}.cd3{animation:fan3 5s ease-in-out infinite}
+@keyframes fan1{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(-14deg) translateX(-6px)}}
+@keyframes fan3{0%,100%{transform:rotate(6deg)}50%{transform:rotate(14deg) translateX(6px)}}
+/* skywatch: radar */
+.sweep{transform-origin:150px 75px;animation:spin 4s linear infinite}
+.blip{animation:blip 4s infinite}
+@keyframes blip{0%,100%{opacity:.15}8%{opacity:1}40%{opacity:.25}}
+.plane{animation:fly 9s linear infinite}
+@keyframes fly{from{transform:translate(-40px,30px)}to{transform:translate(340px,-40px)}}
+/* garden: bird bob + song */
+.bird{transform-origin:150px 92px;animation:bob 2.6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-2px) rotate(-4deg)}55%{transform:translateY(0) rotate(2deg)}}
+.note{opacity:0;animation:note 2.6s ease-out infinite}
+@keyframes note{0%{opacity:0;transform:translate(0,0)}20%{opacity:1}100%{opacity:0;transform:translate(14px,-22px)}}
+/* whatsnext: day cursor */
+.day{fill:rgba(255,255,255,.05)}
+.dsel{animation:days 7s steps(1) infinite}
+@keyframes days{0%{transform:translateX(0)}14%{transform:translateX(34px)}28%{transform:translateX(68px)}42%{transform:translateX(102px)}57%{transform:translateX(136px)}71%{transform:translateX(170px)}85%{transform:translateX(204px)}}
+/* dispatch: lines writing */
+.ln{stroke-dasharray:200;stroke-dashoffset:200;animation:write 6s ease-in-out infinite}
+@keyframes write{0%{stroke-dashoffset:200}30%,80%{stroke-dashoffset:0}100%{stroke-dashoffset:-200}}
+/* animal names: shuffle text */
+.shuf{font-family:var(--mono);font-size:22px;letter-spacing:2px;color:var(--t1)}
+.shuf b{color:var(--c);font-weight:400}
+/* mod: blocks */
+.blk{opacity:0;animation:blk 5s infinite}
+@keyframes blk{0%,5%{opacity:0;transform:translateY(-10px)}12%{opacity:1;transform:none}80%{opacity:1}92%,100%{opacity:0}}
+
+@media (max-width:960px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:620px){
+  .wrap{padding:44px 16px 40px}
+  header{flex-direction:column;gap:10px;margin-bottom:32px}
+  .grid{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.card,.paw,.blk,.note{opacity:1!important;transform:none!important}.ln{stroke-dashoffset:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div><div class="mark">phillm.dev</div></div>
+  <div class="sub">Things I'm tinkering with.</div>
+  <a class="gh" href="https://github.com/phillmeredith">GitHub ↗</a>
+</header>
+
+<main class="grid" id="grid">
+
+<div class="card" style="--i:0;--c:#5FD08F">
+  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/kingdom.webp" alt="Animal Kingdom on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#0c0c11"><img src="shots/kingdom-phone.webp" alt="Animal Kingdom on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
+  <div class="top"><h2>Animal Kingdom</h2></div>
+  <p>Collect, care for and learn about real animals. An iPad game with no timers.</p>
+  <a class="link" href="https://kingdom.phillm.dev" target="_blank" rel="noopener"><span>kingdom.phillm.dev</span><span class="ar">↗</span></a>
+</div>
+
+<div class="card" style="--i:1;--c:#AFC0FF">
+  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/silver.webp" alt="Silver Stables on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#150d05"><img src="shots/silver-phone.webp" alt="Silver Stables on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
+  <div class="top"><h2>Silver Stables</h2></div>
+  <p>Ride a horse through a 3D woodland with weather and seasons. Runs in the browser.</p>
+  <a class="link" href="https://silverstable.phillm.dev" target="_blank" rel="noopener"><span>silverstable.phillm.dev</span><span class="ar">↗</span></a>
+</div>
+
+<div class="card" style="--i:2;--c:#FFB547">
+  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/cards.webp" alt="Pokémon directory on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#0d0d11"><img src="shots/cards-phone.webp" alt="Pokémon directory on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
+  <div class="top"><h2>Pokémon directory</h2></div>
+  <p>Look up any Pokémon card and find out what everything on it means.</p>
+  <a class="link" href="https://pokemon.phillm.dev" target="_blank" rel="noopener"><span>pokemon.phillm.dev</span><span class="ar">↗</span></a>
+</div>
+
+<div class="card" style="--i:3;--c:#6FA0FF">
+  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/sky.webp" alt="Skywatch on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#a9c09c"><img src="shots/sky-phone.webp" alt="Skywatch on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
+  <div class="top"><h2>Skywatch</h2></div>
+  <p>A live flight map with extra context on every aircraft overhead.</p>
+  <a class="link" href="https://sky.phillm.dev" target="_blank" rel="noopener"><span>sky.phillm.dev</span><span class="ar">↗</span></a>
+</div>
+
+<div class="card" style="--i:4;--c:#8FE3B0">
+  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/garden.webp" alt="In Our Garden on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#333626"><img src="shots/garden-phone.webp" alt="In Our Garden on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
+  <div class="top"><h2>In Our Garden</h2></div>
+  <p>A bird-watching log, with a guide to UK birds and their songs.</p>
+  <a class="link" href="https://birds.phillm.dev" target="_blank" rel="noopener"><span>birds.phillm.dev</span><span class="ar">↗</span></a>
+</div>
+
+<div class="card" style="--i:5;--c:#A7D98F">
+  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/whatsnext.webp" alt="What's next on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#2f4632"><img src="shots/whatsnext-phone.webp" alt="What's next on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
+  <div class="top"><h2>What's next</h2></div>
+  <p>A finance and life organiser: the week ahead, money and routines in one place.</p>
+  <a class="link" href="https://app.phillm.dev" target="_blank" rel="noopener"><span>app.phillm.dev</span><span class="ar">↗</span></a>
+</div>
+
+<div class="card" style="--i:6;--c:#E8E6DF">
+  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/dispatch.webp" alt="The Dispatch on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#d0cab2"><img src="shots/dispatch-phone.webp" alt="The Dispatch on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
+  <div class="top"><h2>The Dispatch</h2></div>
+  <p>One front page for new releases and news, instead of thirty tabs.</p>
+  <div class="link priv"><span>Not public yet</span><span></span></div>
+</div>
+
+<div class="card" style="--i:7;--c:#C59BFF">
+  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/names.webp" alt="Animal Names on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#0a0a0a"><img src="shots/names-phone.webp" alt="Animal Names on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
+  <div class="top"><h2>Animal Names</h2></div>
+  <p>Generates names for animals, with a little reference for each one.</p>
+  <a class="link" href="https://animal-names-w6eh.vercel.app" target="_blank" rel="noopener"><span>animal-names-w6eh.vercel.app</span><span class="ar">↗</span></a>
+</div>
+
+<div class="card" style="--i:8;--c:#F2A541">
+  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/references.webp" alt="References for drawing on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#2d202d"><img src="shots/references-phone.webp" alt="References for drawing on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
+  <div class="top"><h2>References for drawing</h2></div>
+  <p>Thousands of reference pictures to draw from, stored offline.</p>
+  <a class="link" href="https://references.phillm.dev" target="_blank" rel="noopener"><span>references.phillm.dev</span><span class="ar">↗</span></a>
+</div>
+
+<div class="card" style="--i:9;--c:#86D65A">
+  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/mod.webp" alt="Harry's Mod on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#008cfd"><img src="shots/mod-phone.webp" alt="Harry's Mod on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
+  <div class="top"><h2>Harry's Mod</h2></div>
+  <p>Lets Harry send bug reports and ideas for his Minecraft add-on.</p>
+  <a class="link" href="https://mod.phillm.dev" target="_blank" rel="noopener"><span>mod.phillm.dev</span><span class="ar">↗</span></a>
+</div>
+
+</main>
+<footer><span>phillm.dev</span><span id="yr">2026</span></footer>
+</div>
+
+<script>
+document.querySelectorAll('.dev2').forEach(a=>{const sl=a.querySelectorAll('.slide'),ds=a.querySelectorAll('.dot');let cur=0;const go=n=>{cur=Math.max(0,Math.min(sl.length-1,n));a.classList.toggle('at-first',cur===0);a.classList.toggle('at-last',cur===sl.length-1);sl.forEach((x,m)=>x.classList.toggle('on',m===cur));ds.forEach((x,m)=>{x.classList.toggle('on',m===cur);x.setAttribute('aria-selected',m===cur)})};ds.forEach((d,n)=>d.addEventListener('click',()=>go(n)));a.querySelector('.prev').addEventListener('click',()=>go(cur-1));a.querySelector('.next').addEventListener('click',()=>go(cur+1));go(0)});
+document.querySelectorAll('.art img').forEach(i=>{const t=i.closest('.dev,.ipad')||i;const on=()=>t.classList.add('in');i.complete?setTimeout(on,200+Math.random()*300):i.addEventListener('load',on)});
+// cursor-follow glow on cards
+document.querySelectorAll('.card').forEach(c=>c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')}));
+
+// paw trail
+(function(){const s=document.getElementById('paws');if(!s)return;const pts=[[40,110],[70,96],[100,108],[130,92],[160,104],[190,88],[220,100],[250,84]];
+const paw=(x,y,r)=>`<g transform="translate(${x} ${y}) rotate(${r})"><ellipse cx="0" cy="4" rx="6" ry="5" fill="currentColor"/><circle cx="-6" cy="-5" r="2.4" fill="currentColor"/><circle cx="-2" cy="-8" r="2.4" fill="currentColor"/><circle cx="3" cy="-8" r="2.4" fill="currentColor"/><circle cx="7" cy="-5" r="2.4" fill="currentColor"/></g>`;
+s.innerHTML=pts.map((p,i)=>`<g class="paw" style="animation-delay:${i*.32}s;transform-box:fill-box;transform-origin:center">${paw(p[0],p[1],70)}</g>`).join('')})();
+
+// week days
+(function(){const g=document.getElementById('days');if(!g)return;const d=['M','T','W','T','F','S','S'];
+g.innerHTML=d.map((l,i)=>`<rect class="day" x="${33+i*34}" y="58" width="28" height="34" rx="7"/><text x="${47+i*34}" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#8a8a94">${l}</text>`).join('')})();
+
+// minecraft-ish blocks
+(function(){const s=document.getElementById('blocks');if(!s)return;const cols=['#5E9C3A','#7DBF4A','#8B5E34','#6B4628','#9E9E9E'];let h='';let k=0;
+const layout=[[0,0,2],[1,0,2],[2,0,2],[3,0,2],[4,0,2],[1,1,3],[2,1,3],[3,1,3],[2,2,0],[1,2,1],[3,2,1],[2,3,1]];
+layout.forEach(([x,y,c])=>{h+=`<rect class="blk" x="${105+x*18}" y="${118-y*18}" width="17" height="17" fill="${cols[c]}" style="animation-delay:${(k++)*.18}s"/>`});s.innerHTML=h})();
+
+// name shuffle
+(function(){const el=document.getElementById('shuf');if(!el)return;const A=['BRAVE','SLEEPY','TINY','GOLDEN','WILD','JOLLY','MIGHTY'],B=['OTTER','FOX','PANDA','HERON','LYNX','BADGER','GECKO'];
+const L='ABCDEFGHIJKLMNOPQRSTUVWXYZ';if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;let i=0;
+function go(){i++;const a=A[i%A.length],b=B[(i*3)%B.length];let f=0;const t=setInterval(()=>{f++;const sc=w=>w.split('').map((ch,j)=>j<f/2?ch:L[Math.random()*26|0]).join('');
+el.innerHTML=`${sc(a)} <b>${sc(b)}</b>`;if(f>Math.max(a.length,b.length)*2){clearInterval(t);el.innerHTML=`${a} <b>${b}</b>`}},40)}
+setInterval(go,2600)})();
+</script>
+</body>
+</html>
