@@ -189,6 +189,15 @@ a.link:hover{background:var(--soft-hover)}
 .priv{padding:12px 4px 6px}
 footer{margin-top:48px;font:400 14px/1 var(--sans);color:var(--t2)}
 @media (max-width:620px){.wrap{padding:0 16px 40px}.bar .wrap{padding-bottom:0}.hero{padding:36px 0 28px}.gh{display:none}.seg button{padding:0 10px}}
+
+/* ---------- screenshots fill the panel: no device frame, border or shadow ---------- */
+.art.dev2{background:var(--art)}
+.dev2 .ipad,.dev2 .dev,.slide .dev{left:0;top:0;width:100%;height:100%;aspect-ratio:auto;padding:0;border-radius:0;background:none;box-shadow:none;transform:none;opacity:0;transition:opacity .9s ease}
+.dev2 .ipad.in,.dev2 .dev.in,.card:hover .dev2 .ipad.in,.card:hover .dev2 .dev.in{transform:none;opacity:1}
+.dev2 .dev::before{display:none}
+.dev2 .ipad img,.dev2 .dev img{border-radius:0;padding:0;object-fit:cover;object-position:top center;transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}
+.card:hover .dev2 img{transform:scale(1.02)}
+.dots{bottom:12px}
 </style>
 </head>
 <body>
