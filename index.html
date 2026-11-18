@@ -1,22 +1,30 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB" data-theme="auto">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>try{const t=localStorage.getItem('phillm-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <title>phillm.dev</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0A0A0C; --card:#111114; --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.14);
-  --t1:#F3F3F1; --t2:#9C9CA6; --t3:#5E5E68;
+  /* colour modes from plugin.phillm.dev (Declutter): dark soft charcoal, light warm paper, medium muted middle */
+  --bg:#16181b; --bar:#0e1113; --card:#1d2024; --card2:#24272b; --t1:#d3d5d8; --t2:#878c92; --line:#2a2e32;
+  --t3:color-mix(in srgb,var(--t2) 70%,var(--bg)); --line2:color-mix(in srgb,var(--t1) 20%,var(--bg));
+  --soft:color-mix(in srgb,var(--t1) 4%,transparent); --soft-hover:color-mix(in srgb,var(--t1) 8%,transparent);
+  --chosen:color-mix(in srgb,var(--bar) 76%,color-mix(in srgb,var(--t1) 80%,#93b2e6)); --chosen-text:color-mix(in srgb,var(--t1) 82%,var(--t2));
+  --art:var(--bar);
   --sans:'Inter Tight',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  color-scheme:dark;
 }
-@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#0A0A0C}}
-:root[data-theme="dark"]{--bg:#0A0A0C}
+@media (prefers-color-scheme: light){:root[data-theme="auto"]{--bg:#ebe9e4; --bar:#f3f1ed; --card:#e2dfd8; --card2:#dad6ce; --t1:#2a2d31; --t2:#62676d; --line:#d9d6ce; color-scheme:light;}}
+:root[data-theme="light"]{--bg:#ebe9e4; --bar:#f3f1ed; --card:#e2dfd8; --card2:#dad6ce; --t1:#2a2d31; --t2:#62676d; --line:#d9d6ce; color-scheme:light;}
+:root[data-theme="medium"]{--bg:#b8ad9a; --bar:#c2b8a6; --card:#ada28e; --card2:#a39783; --t1:#2f2c27; --t2:#4a443b; --line:#9d927e; color-scheme:light;}
 *{margin:0;padding:0;box-sizing:border-box}
 html{background:var(--bg)}
-body{background:var(--bg);color:var(--t1);font-family:var(--sans);-webkit-font-smoothing:antialiased;min-height:100vh}
+body{transition:background-color .3s ease,color .3s ease;background:var(--bg);color:var(--t1);font-family:var(--sans);-webkit-font-smoothing:antialiased;min-height:100vh}
 a{color:inherit;text-decoration:none}
 .wrap{max-width:1180px;margin:0 auto;padding:72px 32px 56px}
 
@@ -28,8 +36,19 @@ header{display:flex;justify-content:space-between;align-items:baseline;gap:24px;
 .sub{color:var(--t2);font-size:15px}
 .gh{font-family:var(--mono);font-size:12px;color:var(--t2);transition:color .2s}
 .gh:hover{color:var(--t1)}
+.right{display:flex;align-items:center;gap:16px}
+.seg{display:inline-flex;padding:3px;border-radius:99px;background:var(--soft);white-space:nowrap}
+.seg button{height:26px;padding:0 11px;border:0;border-radius:99px;background:transparent;color:var(--t2);font:500 12px/1 var(--sans);cursor:pointer;transition:background-color .15s,color .15s}
+.seg button[aria-checked="true"]{background:var(--chosen);color:var(--chosen-text);font-weight:600}
+.seg button:not([aria-checked="true"]):hover{background:var(--soft-hover);color:var(--t1)}
+.seg button:focus-visible{outline:2px solid var(--t2);outline-offset:2px}
 
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.sec{grid-column:1/-1;display:flex;align-items:baseline;gap:10px;margin:28px 0 2px;font-family:var(--mono);font-weight:400;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--t2);opacity:0;animation:rise .8s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i)*70ms + 80ms)}
+.sec:first-child{margin-top:0}
+.sec em{font-style:normal;color:var(--t3)}
+.sec::after{content:'';flex:1;height:1px;background:var(--line);align-self:center}
+
 .card{position:relative;border-radius:18px;background:var(--card);border:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:16px;overflow:hidden;
   opacity:0;transform:translateY(12px);animation:rise .8s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i)*70ms + 120ms);
   transition:border-color .3s, transform .4s cubic-bezier(.2,.8,.2,1)}
@@ -38,8 +57,8 @@ header{display:flex;justify-content:space-between;align-items:baseline;gap:24px;
   background:radial-gradient(380px circle at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--c) 16%,transparent),transparent 60%)}
 .card:hover{border-color:var(--line2)}
 .card:hover::before{opacity:1}
-.art{aspect-ratio:4/3;border-radius:12px;background:#0C0C0F;border:1px solid var(--line);position:relative;overflow:hidden;display:grid;place-items:center}
-.art.dev2{background:radial-gradient(120% 90% at 50% 100%,color-mix(in oklab,var(--c) 22%,#0C0C0F),#0C0C0F 70%)}
+.art{aspect-ratio:4/3;border-radius:12px;background:var(--art);border:1px solid var(--line);position:relative;overflow:hidden;display:grid;place-items:center}
+.art.dev2{background:radial-gradient(120% 90% at 50% 100%,color-mix(in oklab,var(--c) 22%,var(--art)),var(--art) 70%)}
 .dev2 .dev{position:absolute;left:50%;top:10%;width:44%;aspect-ratio:390/844;transform:translate(-50%,8%);opacity:0;border-radius:15% / 7%;padding:2.2%;background:linear-gradient(145deg,#3a3d45,#16171b 45%,#2a2c32);box-shadow:0 0 0 1px rgba(255,255,255,.08),0 30px 60px -20px rgba(0,0,0,.8);transition:opacity .9s ease,transform 1.4s cubic-bezier(.2,.8,.2,1)}
 .dev2 .dev.in{opacity:1;transform:translate(-50%,0)}
 .card:hover .dev2 .dev.in{transform:translate(-50%,-4%)}
@@ -69,7 +88,7 @@ header{display:flex;justify-content:space-between;align-items:baseline;gap:24px;
 .art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;opacity:0;transform:scale(1.035);transition:opacity .9s ease,transform 1.4s cubic-bezier(.2,.8,.2,1)}
 .art img.in{opacity:1;transform:scale(1)}
 .card:hover .art img.in{transform:scale(1.03)}
-.art::after{content:'';position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);pointer-events:none}
+.art::after{content:'';position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px var(--soft);pointer-events:none}
 .top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
 h2{font-size:18px;font-weight:600;letter-spacing:-.3px}
 .for{font-family:var(--mono);font-size:11px;color:var(--t3);white-space:nowrap}
@@ -78,7 +97,7 @@ p{color:var(--t2);font-size:14px;line-height:1.5}
 .link .ar{display:inline-block;transition:transform .35s cubic-bezier(.2,.8,.2,1),color .3s}
 a.link{margin:0 -18px -18px;padding:14px 18px 18px;transition:color .3s,background .3s}
 a.link:hover{color:var(--t1);background:color-mix(in oklab,var(--c) 8%,transparent)}
-a.link:hover .ar{transform:translate(3px,-3px);color:var(--c)}
+a.link:hover .ar{transform:translate(3px,-3px);color:color-mix(in oklab,var(--c) 55%,var(--t1))}
 a.link:focus-visible{outline:2px solid var(--c);outline-offset:-2px}
 .priv{color:var(--t3)}
 
@@ -110,7 +129,7 @@ footer{margin-top:56px;display:flex;justify-content:space-between;font-family:va
 .note{opacity:0;animation:note 2.6s ease-out infinite}
 @keyframes note{0%{opacity:0;transform:translate(0,0)}20%{opacity:1}100%{opacity:0;transform:translate(14px,-22px)}}
 /* whatsnext: day cursor */
-.day{fill:rgba(255,255,255,.05)}
+.day{fill:var(--soft)}
 .dsel{animation:days 7s steps(1) infinite}
 @keyframes days{0%{transform:translateX(0)}14%{transform:translateX(34px)}28%{transform:translateX(68px)}42%{transform:translateX(102px)}57%{transform:translateX(136px)}71%{transform:translateX(170px)}85%{transform:translateX(204px)}}
 /* dispatch: lines writing */
@@ -137,11 +156,14 @@ footer{margin-top:56px;display:flex;justify-content:space-between;font-family:va
 <header>
   <div><div class="mark">phillm.dev</div></div>
   <div class="sub">Things I'm tinkering with.</div>
-  <a class="gh" href="https://github.com/phillmeredith">GitHub ↗</a>
+  <div class="right">
+    <div class="seg" role="radiogroup" aria-label="Colours" id="tones"><button type="button" role="radio" data-tone="auto">Auto</button><button type="button" role="radio" data-tone="light">Light</button><button type="button" role="radio" data-tone="medium">Medium</button><button type="button" role="radio" data-tone="dark">Dark</button></div>
+    <a class="gh" href="https://github.com/phillmeredith">GitHub ↗</a>
+  </div>
 </header>
 
 <main class="grid" id="grid">
-
+<h3 class="sec" style="--i:0"><span>Games</span><em>4</em></h3>
 <div class="card" style="--i:0;--c:#5FD08F">
   <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/kingdom.webp" alt="Animal Kingdom on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#0c0c11"><img src="shots/kingdom-phone.webp" alt="Animal Kingdom on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
   <div class="top"><h2>Animal Kingdom</h2></div>
@@ -156,74 +178,76 @@ footer{margin-top:56px;display:flex;justify-content:space-between;font-family:va
   <a class="link" href="https://silverstable.phillm.dev" target="_blank" rel="noopener"><span>silverstable.phillm.dev</span><span class="ar">↗</span></a>
 </div>
 
-<div class="card" style="--i:2;--c:#FFB547">
-  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/cards.webp" alt="Pokémon directory on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#0d0d11"><img src="shots/cards-phone.webp" alt="Pokémon directory on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
-  <div class="top"><h2>Pokémon directory</h2></div>
-  <p>Look up any Pokémon card and find out what everything on it means.</p>
-  <a class="link" href="https://pokemon.phillm.dev" target="_blank" rel="noopener"><span>pokemon.phillm.dev</span><span class="ar">↗</span></a>
+<div class="card" style="--i:2;--c:#C9A27A">
+  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/skins.webp" alt="Skin Studio on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#3d2c1f"><img src="shots/skins-phone.webp" alt="Skin Studio on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
+  <div class="top"><h2>Skin Studio</h2></div>
+  <p>Make Minecraft skins on a 3D model, or browse a library of thousands.</p>
+  <a class="link" href="https://skins.phillm.dev" target="_blank" rel="noopener"><span>skins.phillm.dev</span><span class="ar">↗</span></a>
 </div>
 
-<div class="card" style="--i:3;--c:#6FA0FF">
-  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/sky.webp" alt="Skywatch on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#a9c09c"><img src="shots/sky-phone.webp" alt="Skywatch on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
-  <div class="top"><h2>Skywatch</h2></div>
-  <p>A live flight map with extra context on every aircraft overhead.</p>
-  <a class="link" href="https://sky.phillm.dev" target="_blank" rel="noopener"><span>sky.phillm.dev</span><span class="ar">↗</span></a>
-</div>
-
-<div class="card" style="--i:4;--c:#8FE3B0">
-  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/garden.webp" alt="In Our Garden on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#333626"><img src="shots/garden-phone.webp" alt="In Our Garden on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
-  <div class="top"><h2>In Our Garden</h2></div>
-  <p>A bird-watching log, with a guide to UK birds and their songs.</p>
-  <a class="link" href="https://birds.phillm.dev" target="_blank" rel="noopener"><span>birds.phillm.dev</span><span class="ar">↗</span></a>
-</div>
-
-<div class="card" style="--i:5;--c:#A7D98F">
-  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/whatsnext.webp" alt="What's next on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#2f4632"><img src="shots/whatsnext-phone.webp" alt="What's next on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
-  <div class="top"><h2>What's next</h2></div>
-  <p>A finance and life organiser: the week ahead, money and routines in one place.</p>
-  <a class="link" href="https://app.phillm.dev" target="_blank" rel="noopener"><span>app.phillm.dev</span><span class="ar">↗</span></a>
-</div>
-
-<div class="card" style="--i:6;--c:#E8E6DF">
-  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/dispatch.webp" alt="The Dispatch on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#d0cab2"><img src="shots/dispatch-phone.webp" alt="The Dispatch on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
-  <div class="top"><h2>The Dispatch</h2></div>
-  <p>One front page for new releases and news, instead of thirty tabs.</p>
-  <div class="link priv"><span>Not public yet</span><span></span></div>
-</div>
-
-<div class="card" style="--i:7;--c:#C59BFF">
-  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/names.webp" alt="Animal Names on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#0a0a0a"><img src="shots/names-phone.webp" alt="Animal Names on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
-  <div class="top"><h2>Animal Names</h2></div>
-  <p>Generates names for animals, with a little reference for each one.</p>
-  <a class="link" href="https://animal-names-w6eh.vercel.app" target="_blank" rel="noopener"><span>animal-names-w6eh.vercel.app</span><span class="ar">↗</span></a>
-</div>
-
-<div class="card" style="--i:8;--c:#F2A541">
-  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/references.webp" alt="References for drawing on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#2d202d"><img src="shots/references-phone.webp" alt="References for drawing on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
-  <div class="top"><h2>References for drawing</h2></div>
-  <p>Thousands of reference pictures to draw from, stored offline.</p>
-  <a class="link" href="https://references.phillm.dev" target="_blank" rel="noopener"><span>references.phillm.dev</span><span class="ar">↗</span></a>
-</div>
-
-<div class="card" style="--i:9;--c:#86D65A">
+<div class="card" style="--i:3;--c:#86D65A">
   <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/mod.webp" alt="Harry's Mod on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#008cfd"><img src="shots/mod-phone.webp" alt="Harry's Mod on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
   <div class="top"><h2>Harry's Mod</h2></div>
   <p>Lets Harry send bug reports and ideas for his Minecraft add-on.</p>
   <a class="link" href="https://mod.phillm.dev" target="_blank" rel="noopener"><span>mod.phillm.dev</span><span class="ar">↗</span></a>
 </div>
 
-<div class="card" style="--i:10;--c:#D9CDBE">
+<h3 class="sec" style="--i:4"><span>Collections</span><em>3</em></h3>
+<div class="card" style="--i:4;--c:#FFB547">
+  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/cards.webp" alt="Pokémon directory on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#0d0d11"><img src="shots/cards-phone.webp" alt="Pokémon directory on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
+  <div class="top"><h2>Pokémon directory</h2></div>
+  <p>Look up any Pokémon card and find out what everything on it means.</p>
+  <a class="link" href="https://pokemon.phillm.dev" target="_blank" rel="noopener"><span>pokemon.phillm.dev</span><span class="ar">↗</span></a>
+</div>
+
+<div class="card" style="--i:5;--c:#F2A541">
+  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/references.webp" alt="References for drawing on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#2d202d"><img src="shots/references-phone.webp" alt="References for drawing on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
+  <div class="top"><h2>References for drawing</h2></div>
+  <p>Thousands of reference pictures to draw from, stored offline.</p>
+  <a class="link" href="https://references.phillm.dev" target="_blank" rel="noopener"><span>references.phillm.dev</span><span class="ar">↗</span></a>
+</div>
+
+<div class="card" style="--i:6;--c:#C59BFF">
+  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/names.webp" alt="Animal Names on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#0a0a0a"><img src="shots/names-phone.webp" alt="Animal Names on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
+  <div class="top"><h2>Animal Names</h2></div>
+  <p>Generates names for animals, with a little reference for each one.</p>
+  <a class="link" href="https://animal-names-w6eh.vercel.app" target="_blank" rel="noopener"><span>animal-names-w6eh.vercel.app</span><span class="ar">↗</span></a>
+</div>
+
+<h3 class="sec" style="--i:7"><span>Everyday tools</span><em>5</em></h3>
+<div class="card" style="--i:7;--c:#A7D98F">
+  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/whatsnext.webp" alt="What's next on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#2f4632"><img src="shots/whatsnext-phone.webp" alt="What's next on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
+  <div class="top"><h2>What's next</h2></div>
+  <p>A finance and life organiser: the week ahead, money and routines in one place.</p>
+  <a class="link" href="https://app.phillm.dev" target="_blank" rel="noopener"><span>app.phillm.dev</span><span class="ar">↗</span></a>
+</div>
+
+<div class="card" style="--i:8;--c:#6FA0FF">
+  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/sky.webp" alt="Skywatch on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#a9c09c"><img src="shots/sky-phone.webp" alt="Skywatch on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
+  <div class="top"><h2>Skywatch</h2></div>
+  <p>A live flight map with extra context on every aircraft overhead.</p>
+  <a class="link" href="https://sky.phillm.dev" target="_blank" rel="noopener"><span>sky.phillm.dev</span><span class="ar">↗</span></a>
+</div>
+
+<div class="card" style="--i:9;--c:#8FE3B0">
+  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/garden.webp" alt="In Our Garden on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#333626"><img src="shots/garden-phone.webp" alt="In Our Garden on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
+  <div class="top"><h2>In Our Garden</h2></div>
+  <p>A bird-watching log, with a guide to UK birds and their songs.</p>
+  <a class="link" href="https://birds.phillm.dev" target="_blank" rel="noopener"><span>birds.phillm.dev</span><span class="ar">↗</span></a>
+</div>
+
+<div class="card" style="--i:10;--c:#E8E6DF">
+  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/dispatch.webp" alt="The Dispatch on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#d0cab2"><img src="shots/dispatch-phone.webp" alt="The Dispatch on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
+  <div class="top"><h2>The Dispatch</h2></div>
+  <p>One front page for new releases and news, instead of thirty tabs.</p>
+  <div class="link priv"><span>Not public yet</span><span></span></div>
+</div>
+
+<div class="card" style="--i:11;--c:#D9CDBE">
   <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/plugin.webp" alt="Declutter on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#f3f0ed"><img src="shots/plugin-phone.webp" alt="Declutter on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
   <div class="top"><h2>Declutter</h2></div>
   <p>A Firefox extension that gives busy sites one calm, tidy look, with no adverts.</p>
   <a class="link" href="https://plugin.phillm.dev" target="_blank" rel="noopener"><span>plugin.phillm.dev</span><span class="ar">↗</span></a>
-</div>
-
-<div class="card" style="--i:11;--c:#C9A27A">
-  <div class="art dev2"><div class="slide on"><div class="ipad"><img src="shots/skins.webp" alt="Skin Studio on iPad, with sample data" loading="lazy" width="960" height="720"></div></div><div class="slide"><div class="dev" style="--sb:#3d2c1f"><img src="shots/skins-phone.webp" alt="Skin Studio on iPhone, with sample data" loading="lazy" width="600" height="1298"></div></div><button class="nav prev" aria-label="Previous view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" aria-label="Next view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots" role="tablist" aria-label="Device"><button class="dot on" aria-label="iPad view" aria-selected="true"></button><button class="dot" aria-label="iPhone view" aria-selected="false"></button></div></div>
-  <div class="top"><h2>Skin Studio</h2></div>
-  <p>Make Minecraft skins on a 3D model, or browse a library of thousands.</p>
-  <a class="link" href="https://skins.phillm.dev" target="_blank" rel="noopener"><span>skins.phillm.dev</span><span class="ar">↗</span></a>
 </div>
 
 </main>
@@ -231,6 +255,9 @@ footer{margin-top:56px;display:flex;justify-content:space-between;font-family:va
 </div>
 
 <script>
+(()=>{const r=document.documentElement,g=document.getElementById('tones');if(!g)return;const mark=t=>g.querySelectorAll('[data-tone]').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.tone===t)));mark(r.dataset.theme||'auto');
+g.addEventListener('click',e=>{const b=e.target.closest('[data-tone]');if(!b)return;r.dataset.theme=b.dataset.tone;mark(b.dataset.tone);try{localStorage.setItem('phillm-theme',b.dataset.tone)}catch(e){}});
+g.addEventListener('keydown',e=>{if(!/^Arrow(Left|Right)$/.test(e.key))return;const all=[...g.querySelectorAll('[data-tone]')],i=all.indexOf(document.activeElement);if(i<0)return;const n=all[(i+(e.key==='ArrowRight'?1:all.length-1))%all.length];n.focus();n.click();e.preventDefault()})})();
 document.querySelectorAll('.dev2').forEach(a=>{const sl=a.querySelectorAll('.slide'),ds=a.querySelectorAll('.dot');let cur=0;const go=n=>{cur=Math.max(0,Math.min(sl.length-1,n));a.classList.toggle('at-first',cur===0);a.classList.toggle('at-last',cur===sl.length-1);sl.forEach((x,m)=>x.classList.toggle('on',m===cur));ds.forEach((x,m)=>{x.classList.toggle('on',m===cur);x.setAttribute('aria-selected',m===cur)})};ds.forEach((d,n)=>d.addEventListener('click',()=>go(n)));a.querySelector('.prev').addEventListener('click',()=>go(cur-1));a.querySelector('.next').addEventListener('click',()=>go(cur+1));go(0)});
 document.querySelectorAll('.art img').forEach(i=>{const t=i.closest('.dev,.ipad')||i;const on=()=>t.classList.add('in');i.complete?setTimeout(on,200+Math.random()*300):i.addEventListener('load',on)});
 // cursor-follow glow on cards
