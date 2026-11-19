@@ -210,6 +210,96 @@ footer{margin-top:48px;font:400 14px/1 var(--sans);color:var(--t2)}
 .dot:focus-visible,.nav:focus-visible{outline-color:var(--t2)}
 .nav{color:var(--t2)}
 .nav:hover{color:var(--t1);background:var(--bar)}
+
+/* ---------- feature showcase: tap a card (not its link) ---------- */
+.card.has-sc{cursor:pointer}
+.card.has-sc .top h2{display:flex;align-items:center;gap:8px}
+.more{display:inline-flex;align-items:center;gap:4px;font:500 12.5px/1 var(--sans);color:var(--t3);opacity:0;transform:translateX(-4px);transition:opacity .3s,transform .4s cubic-bezier(.2,.8,.2,1),color .2s}
+.card.has-sc:hover .more,.card.has-sc:focus-visible .more{opacity:1;transform:none;color:var(--t2)}
+@media (hover:none){.more{opacity:1;transform:none}}
+.card.has-sc:focus-visible{outline:2px solid var(--t2);outline-offset:3px}
+html.sc-lock,html.sc-lock body{overflow:hidden}
+.sc{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:28px;visibility:hidden}
+.sc{transition:visibility 0s .45s;pointer-events:none}
+.sc.open{visibility:visible;transition:none;pointer-events:auto}
+.sc:not(.open) .sc__gal .sl.on,.sc:not(.open) .sc__gal .nav,.sc:not(.open) .sc__gal .dots{visibility:hidden;transition:visibility 0s .45s}
+.sc__back{position:absolute;inset:0;background:color-mix(in srgb,var(--bg) 62%,transparent);backdrop-filter:blur(10px) saturate(1.1);-webkit-backdrop-filter:blur(10px) saturate(1.1);opacity:0;transition:opacity .35s ease}
+.sc.open .sc__back{opacity:1}
+.sc__panel{position:relative;width:min(900px,100%);max-height:min(860px,calc(100vh - 56px));max-height:min(860px,calc(100dvh - 56px));display:flex;flex-direction:column;border-radius:24px;background:var(--bar);box-shadow:0 40px 120px -30px rgba(0,0,0,.55);overflow:hidden;
+  opacity:0;transform:translateY(18px) scale(.985);transition:opacity .35s ease,transform .5s cubic-bezier(.2,.8,.2,1)}
+.sc.open .sc__panel{opacity:1;transform:none}
+.sc__scroll{overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.sc__x{position:absolute;top:14px;right:14px;z-index:3;width:36px;height:36px;display:grid;place-items:center;border:0;border-radius:50%;background:color-mix(in srgb,var(--bar) 80%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--t2);cursor:pointer;transition:color .2s,background-color .2s,transform .3s}
+.sc__x:hover{color:var(--t1);background:var(--bar);transform:rotate(90deg)}
+.sc__x:focus-visible{outline:2px solid var(--t2);outline-offset:2px}
+.sc__x svg{width:18px;height:18px}
+.sc__grab{display:none}
+/* gallery */
+/* gallery: one view at a time, an arrow to the phone */
+.sc__gal{position:relative;margin:20px 20px 0;height:clamp(220px,44vh,390px);border-radius:14px;overflow:hidden;background:radial-gradient(120% 90% at 50% 100%,color-mix(in oklab,var(--sc) 24%,var(--card)),var(--card) 75%);opacity:0;transform:translateY(10px);transition:opacity .6s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+.sc.open .sc__gal{opacity:1;transform:none}
+.sc__gal .sl{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .5s ease,visibility 0s .5s}
+.sc__gal .sl.on{opacity:1;visibility:visible;transition:opacity .5s ease}
+.sc__gal .sl img{display:block}
+.sc__gal .sl.pad img{width:100%;height:100%;object-fit:cover;object-position:top center}
+.sc__gal .sl.ph img{position:absolute;top:18px;bottom:44px;left:50%;height:calc(100% - 62px);width:auto;aspect-ratio:600/1298;object-fit:cover;object-position:top;border-radius:16px;transform:translate(-50%,8px);transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.sc__gal .sl.ph.on img{transform:translate(-50%,0)}
+.sc__gal .nav{opacity:1}
+.sc__gal .dots{bottom:12px}
+/* head */
+.sc__head{padding:26px 32px 0;display:grid;grid-template-columns:1fr auto;gap:8px 24px;align-items:end}
+.sc__head h3{font:500 clamp(30px,4vw,40px)/1.05 var(--serif);letter-spacing:-.02em;color:var(--t1)}
+.sc__head p{grid-column:1;color:var(--t2);font-size:16.5px;line-height:1.5;max-width:52ch}
+.sc__meta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.sc__meta span{padding:7px 12px;border-radius:99px;background:var(--soft);font:500 13px/1 var(--sans);color:var(--t2)}
+.sc__go{grid-column:2;grid-row:1/3;align-self:center;display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 18px;border-radius:99px;background:var(--chosen);color:var(--chosen-text);font:600 14.5px/1 var(--sans);white-space:nowrap;transition:filter .2s,transform .3s cubic-bezier(.2,.8,.2,1)}
+.sc__go:hover{filter:brightness(1.06);transform:translateY(-1px)}
+.sc__go .ar{transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.sc__go:hover .ar{transform:translate(2px,-2px)}
+.sc__go.off{background:var(--soft);color:var(--t3);pointer-events:none}
+/* tabs */
+.sc__tabs{position:sticky;top:0;z-index:2;padding:22px 32px 14px;background:linear-gradient(var(--bar) 70%,color-mix(in srgb,var(--bar) 0%,transparent))}
+.sc__tabs .seg button{height:34px;padding:0 16px}
+.sc__body{padding:4px 32px 36px}
+.sc__pane{display:none}
+.sc__pane.on{display:block;animation:rise .5s cubic-bezier(.2,.8,.2,1) both}
+/* features */
+.feats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;list-style:none}
+.feats li{display:grid;grid-template-columns:36px 1fr;grid-template-rows:auto 1fr;align-content:start;gap:4px 14px;padding:16px;border-radius:16px;background:var(--soft);opacity:0;animation:rise .6s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--k)*40ms + 80ms)}
+.feats .ic{grid-row:1/3;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:color-mix(in oklab,var(--sc) 22%,transparent);color:color-mix(in oklab,var(--sc) 55%,var(--t1))}
+.feats .ic svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.feats b{font:600 15px/1.3 var(--sans);color:var(--t1);padding-top:1px}
+.feats span{font-size:14px;line-height:1.5;color:var(--t2)}
+/* changelog */
+.log{position:relative;list-style:none}
+.log>li{position:relative;display:grid;grid-template-columns:120px 1fr;gap:20px;padding:0 0 26px}
+.log>li::before{content:'';position:absolute;left:131px;top:14px;bottom:-6px;width:2px;border-radius:2px;background:var(--soft-hover)}
+.log>li:last-child::before{display:none}
+.log time{font:500 13.5px/1.4 var(--sans);color:var(--t2);text-align:right;padding-top:4px}
+.log time small{display:block;font:400 italic 14px/1.4 var(--serif);color:var(--t3)}
+.log .v{position:relative;padding-left:22px}
+.log .v::before{content:'';position:absolute;left:-15px;top:8px;width:10px;height:10px;border-radius:50%;background:var(--t3);box-shadow:0 0 0 4px var(--bar)}
+.log>li:first-child .v::before{background:color-mix(in oklab,var(--sc) 70%,var(--t1))}
+.log h4{font:600 15.5px/1.35 var(--sans);color:var(--t1);margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.log h4 em{font:600 11px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;font-style:normal;padding:5px 8px;border-radius:99px;background:color-mix(in oklab,var(--sc) 20%,transparent);color:color-mix(in oklab,var(--sc) 50%,var(--t1))}
+.log ul{list-style:none;display:grid;gap:7px}
+.log ul li{position:relative;padding-left:16px;font-size:14.5px;line-height:1.5;color:var(--t2)}
+.log ul li::before{content:'';position:absolute;left:2px;top:.68em;width:5px;height:5px;border-radius:50%;background:var(--t3)}
+.sc__foot{margin-top:10px;font-size:13.5px;color:var(--t3)}
+@media (max-width:760px){.feats{grid-template-columns:1fr}.log>li{grid-template-columns:1fr;gap:6px;padding-left:22px}.log>li::before{left:4px;top:22px}.log time{text-align:left;padding:0}.log time small{display:inline;margin-left:6px}.log .v{padding-left:0}.log .v::before{left:-22px;top:-20px}}
+/* phone: a sheet from the bottom */
+@media (max-width:620px){
+  .sc{padding:0;place-items:end stretch}
+  .sc__panel{width:100%;max-height:calc(100vh - 28px);max-height:calc(100dvh - 28px);height:calc(100dvh - 28px);border-radius:24px 24px 0 0;transform:translateY(100%);transition:opacity .2s ease,transform .5s cubic-bezier(.2,.85,.2,1)}
+  .sc__grab{display:block;position:absolute;top:8px;left:50%;width:40px;height:5px;margin-left:-20px;border-radius:9px;background:color-mix(in srgb,var(--t2) 40%,transparent);z-index:4}
+  .sc__scroll{margin-top:22px}.sc__gal{margin:4px 16px 0;height:auto;aspect-ratio:4/3}
+  .sc__head{padding:20px 20px 0;grid-template-columns:1fr}
+  .sc__head h3{grid-row:1}.sc__head p{grid-row:2}.sc__meta{grid-row:3}
+  .sc__go{grid-column:1;grid-row:4;justify-self:start;margin-top:14px}
+  .sc__tabs{padding:18px 20px 12px}
+  .sc__body{padding:4px 20px calc(28px + env(safe-area-inset-bottom))}
+  .sc__x{top:16px;right:12px}
+}
 </style>
 </head>
 <body>
@@ -315,6 +405,19 @@ footer{margin-top:48px;font:400 14px/1 var(--sans);color:var(--t2)}
 </div>
 
 </main>
+<div class="sc" id="sc" aria-hidden="true">
+  <div class="sc__back" data-close></div>
+  <div class="sc__panel" role="dialog" aria-modal="true" aria-labelledby="scTitle" tabindex="-1">
+    <span class="sc__grab" aria-hidden="true"></span>
+    <button class="sc__x" type="button" aria-label="Close" data-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <div class="sc__scroll" id="scScroll">
+      <div class="sc__gal" id="scGal"></div>
+      <div class="sc__head"><h3 id="scTitle"></h3><a class="sc__go" id="scGo" target="_blank" rel="noopener"></a><p id="scLine"></p><div class="sc__meta" id="scMeta"></div></div>
+      <div class="sc__tabs"><div class="seg" role="tablist" aria-label="Show"><button type="button" role="tab" data-pane="f" aria-checked="true" aria-selected="true">Features</button><button type="button" role="tab" data-pane="l" aria-checked="false" aria-selected="false">What's new</button></div></div>
+      <div class="sc__body"><div class="sc__pane on" id="paneF" role="tabpanel"><ul class="feats" id="scFeats"></ul></div><div class="sc__pane" id="paneL" role="tabpanel"><ol class="log" id="scLog"></ol><p class="sc__foot" id="scFoot"></p></div></div>
+    </div>
+  </div>
+</div>
 <footer><span>phillm.dev</span><span id="yr">2026</span></footer>
 </div>
 
@@ -347,6 +450,219 @@ const L='ABCDEFGHIJKLMNOPQRSTUVWXYZ';if(matchMedia('(prefers-reduced-motion: red
 function go(){i++;const a=A[i%A.length],b=B[(i*3)%B.length];let f=0;const t=setInterval(()=>{f++;const sc=w=>w.split('').map((ch,j)=>j<f/2?ch:L[Math.random()*26|0]).join('');
 el.innerHTML=`${sc(a)} <b>${sc(b)}</b>`;if(f>Math.max(a.length,b.length)*2){clearInterval(t);el.innerHTML=`${a} <b>${b}</b>`}},40)}
 setInterval(go,2600)})();
+// ---------- feature showcase ----------
+(()=>{
+const I={
+ box:'<path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="M3.3 7 12 12l8.7-5M12 22V12"/>',
+ sprout:'<path d="M7 20h10M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/>',
+ cal:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+ users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
+ home:'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/>',
+ pad:'<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4M15 13h.01M18 11h.01"/>',
+ list:'<path d="m3 17 2 2 4-4M3 7l2 2 4-4M13 6h8M13 12h8M13 18h8"/>',
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>',
+ palette:'<circle cx="13.5" cy="6.5" r="1"/><circle cx="17.5" cy="10.5" r="1"/><circle cx="8.5" cy="7.5" r="1"/><circle cx="6.5" cy="12.5" r="1"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z"/>',
+ layers:'<path d="m12 2 10 5-10 5L2 7Z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/>',
+ spark:'<path d="M12 3l1.9 5.8L20 10l-6.1 1.2L12 17l-1.9-5.8L4 10l6.1-1.2z"/><path d="M19 17v4M17 19h4"/>',
+ eye:'<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+ hist:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/>',
+ map:'<path d="M9 3 3 6v15l6-3 6 3 6-3V3l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/>',
+ flag:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/>',
+ trophy:'<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M18 2H6v7a6 6 0 0 0 12 0V2Z"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>',
+ heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+ music:'<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+ cloud:'<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>'
+};
+const W='Wednesday',Th='Thursday';
+const D={
+ silver:{meta:['Three.js','Ride or walk','Runs in the browser','Touch controls for iPad'],
+  feats:[['map','Thistledown Isle','Woods, a meadow and lake, the Tors, a valley, beaches and the sea, about a kilometre across.'],
+   ['palette','Make your own horse','15 breeds, every part of the body, markings and painting right on the coat.'],
+   ['spark','Real paces','Walk, trot, canter and gallop matched to the stride, so the hooves never slide.'],
+   ['flag','Quests','Hay for the Winter, Busy Bees, Load for the Top and The Bridge to the Wild.'],
+   ['users','The wild herd','Nicker to the herd of Hollow Vale and they follow you, foal and all.'],
+   ['trophy','Races','Six log jumps down Hollow Vale, and a race with the herd along the sands.'],
+   ['heart','A horse\'s life','Treats round the island, grooming, new shoes and a straw stall to sleep in.'],
+   ['music','A radio','My own tracks, playing as you ride.']],
+  log:[['18 Nov',W,'On Cloudflare',['Moved to Cloudflare, and it deploys on every push']],
+   ['18 Nov',W,'On GitHub',['The island, the horse creator, the quests, the herd and the races, all in one go']]],
+  foot:'Earlier changes were made before the project moved to GitHub.'},
+ skins:{meta:['For Harry','iPad first','Works offline','Pairs with Harry\'s Equestrian'],
+  feats:[['palette','Paint skins','Paint Minecraft skins and mobs on the real Java models, one pixel at a time.'],
+   ['heart','Horses and foals','Every coat from Harry\'s Equestrian mod, on the mod\'s own horse model.'],
+   ['layers','The Tack Room','Dress a horse in the mod\'s tack, then paint your own.'],
+   ['box','The Shape Room','Change a horse\'s shape with ready-made parts, down to a shaved mane.'],
+   ['spark','Advanced models','A block editor, like Blockbench, for the horse\'s own parts.'],
+   ['eye','Preview in Minecraft','Ride, tack up and jump in a real world, with Bedrock\'s touch controls.'],
+   ['users','Families and herds','Group everything Harry makes. His designs become coats in the game.'],
+   ['hist','Saves by itself','Older versions to look back at, and a backup off the iPad.']],
+  log:[['19 Nov',Th,'Backups for Harry',['Back Up made simple, one tap from the home screen','Everything backs itself up online','Saves by itself, with older versions to look back at']],
+   ['19 Nov',Th,'Shapes and Advanced',['The Shape Room: push in or pull out the face of a block','Advanced: a first preview of the block editor','Create splits into Skins and Models']],
+   ['19 Nov',Th,'Tack and Preview',['The Tack Room: the mod\'s tack, and your own','Preview in a real Minecraft world with Bedrock\'s touch controls','Ride Harry\'s hobby horses']],
+   ['18 Nov',W,'Foals and a title screen',['Foals, painted one coat pixel at a time','A Minecraft-style title screen with Harry\'s picture','Mirror painting and part toggles for horses']],
+   ['18 Nov',W,'First version',['A standalone Minecraft skin maker','Harry\'s horses: the mod\'s model and its 136 coats','Java mob models, so every mob looks like the game']]]},
+ mod:{meta:['For Harry','iPad first','Tap first, little typing','Paired devices only'],
+  feats:[['flag','Report a bug','A few taps through the mod\'s own categories, with Type it instead when there\'s more to say.'],
+   ['spark','Ideas','Ideas for the add-on go to the same place as the bugs.'],
+   ['list','Report tracker','A timeline for every report, where Harry can confirm a fix or add more.'],
+   ['box','Download the latest build','The newest version of Harry\'s Equestrian, with a New tag until he has it.'],
+   ['hist','Previous versions','Every build since 1.6, grouped into named updates, each with its change notes.'],
+   ['eye','Features gallery','A store-style tour of what the mod does, with a report button on each feature.'],
+   ['palette','Skin Studio too','Report bugs in skins.phillm.dev from the same app.'],
+   ['users','Paired devices','Only Harry\'s iPad and mine can use it, set up with a six-digit PIN.']],
+  log:[['19 Nov',Th,'Harry\'s Shapes',['Harry\'s Equestrian 4.2.0 is ready to download','Skin Studio\'s Tack Room, designs and Create page in the report topics','The home screen rider now looks like Harry']],
+   ['19 Nov',Th,'Harry\'s Designs',['Harry\'s Equestrian 4.1.0 is ready to download','Hobby horses in the report topics']],
+   ['18 Nov',W,'Every version',['Previous versions: every build back to 1.6 can be downloaded again','Pairing with a six-digit PIN on a number pad','Type it instead on every bug question']],
+   ['18 Nov',W,'Tracker and gallery',['A report tracker with a timeline for each report','A features gallery on the home screen','Device pairing, so only our devices can send']],
+   ['18 Nov',W,'New home screen',['New Harry\'s Mod key art and logo','Buttons like a classic title screen','Now at mod.phillm.dev']]],
+  foot:'The full history of the add-on itself is under Previous versions in the app.'},
+ kingdom:{meta:['For Harry','iPad game','No timers','Saves on the device'],
+  feats:[['eye','Explore real animals','A directory of animals with filters, search and a full profile for each one.'],
+   ['heart','Adopt and care','Name your animals, then feed, groom and take them to the vet.'],
+   ['spark','Learning games','Coin Rush for maths, Word Safari for spelling, Habitat Builder for science and World Quest for geography.'],
+   ['trophy','Racing','Enter your animals in races and watch them run for coins.'],
+   ['users','Market and auctions','Buy and sell with traders, and bid in daily animal auctions.'],
+   ['flag','Rescue missions','Rescue animals, catch poachers and follow a charity journey.'],
+   ['layers','Cards and packs','Collect animal cards and open packs.'],
+   ['palette','Badges and a skin editor','Badges and levels as you play, and a Minecraft skin editor.']],
+  log:[['18 Nov',W,'The Cabin look',['Warm wood and lantern light across the whole app']],
+   ['18 Nov',W,'Rescue and badges',['A Minecraft skin editor','Achievement badges','Rescue missions, with new game art']],
+   ['30 Mar','Monday','Learning and rescues',['Learning games with card progression and a world map','Rescue banners on the home screen and a charity journey','A store with rewards, and a tidier marketplace']],
+   ['28 Mar','Saturday','First version',['Explore, adopt, care, the learning games, racing, the market and auctions']]]},
+ cards:{meta:['For Harry','iPad first','Works offline'],
+  feats:[['eye','Pokédex','Every Pokémon, how it evolves and every card it appears on.'],
+   ['layers','Cards and sets','Browse every set and card, and the artists who drew them.'],
+   ['heart','Mine and Wanted','Keep track of the cards Harry has and the ones he\'s after.'],
+   ['box','Deck builder','Put a deck together from the cards.'],
+   ['users','Is this swap fair?','Check a trade before saying yes.'],
+   ['trophy','Which one would win?','Pick two Pokémon and see who comes out on top.'],
+   ['spark','How cards work','What everything on a card means, in plain words, with a glossary.'],
+   ['pad','The TV series','Every series and episode, with the Pokémon in each one.']],
+  log:[['18 Nov',W,'Now called Pokémon',['The Cabin look from Draw Dex: warm wood and lantern light','A new name: Pokémon']],
+   ['18 Nov',W,'At pokemon.phillm.dev',['Now at pokemon.phillm.dev','New versions always reach the iPad','Episode stills stored in the app']],
+   ['18 Nov',W,'On GitHub',['Harry\'s Card Dex, all in one go']]]},
+ references:{meta:['For Harry','iPad first','Every picture stored offline'],
+  feats:[['layers','Ten worlds','Animals, characters, people and poses, vehicles, buildings, nature, textures, things, food, fantasy and history.'],
+   ['map','World, group, subject','Animals, then Horses, then Shire horse: easy to find anything.'],
+   ['palette','Photos, sketches and cartoons','Up to three kinds of picture for every subject.'],
+   ['eye','Drawing tools','Flip, black and white, grid lines, zoom, and keep the screen on.'],
+   ['box','Works offline','Every picture lives in the app, so it never needs the internet.'],
+   ['flag','Credited','Every picture says where it came from and who made it.']],
+  log:[['18 Nov',W,'Family PIN',['A six-digit family PIN on big number keys (switched off for now)']],
+   ['18 Nov',W,'The Cabin look',['Warm wood, pixel scenes and a game-style hotbar']],
+   ['18 Nov',W,'First version',['The app and its whole picture library, added in six parts','Now at references.phillm.dev']]]},
+ whatsnext:{meta:['Personal','iPhone and iPad','Sideways iPad has two columns'],
+  feats:[['cal','Today as a ring','Home opens on today in sections, ordered by what\'s next. Tap one to bring it to the middle.'],
+   ['sun','Glance pages','The weather drawn as the day, the week ahead, a countdown to the next F1 session.'],
+   ['list','To dos that repeat','Weekly jobs that keep to a day, and swipe to clear anything for the rest of today.'],
+   ['users','People','Birthdays, with gift ideas for the next one.'],
+   ['box','Projects','Projects and their tasks, side by side on a sideways iPad.'],
+   ['trophy','Money','Spending money until pay day, savings and markets at a glance.'],
+   ['eye','Saved videos','Save a video from Home and share it later.'],
+   ['hist','Hidden amounts','Figures can be hidden behind a soft glow when others are looking.']],
+  log:[['19 Nov',Th,'Video saving moves',['Saving videos now runs beside the app\'s server']],
+   ['18 Nov',W,'The iPad',['Two columns on a sideways iPad, with Projects beside a project','Birthday gift ideas beside People','Now at app.phillm.dev']],
+   ['15 Nov','Sunday','Glance pages',['Home\'s top is a row of glance pages: the weather, the week ahead and more']],
+   ['13 Nov','Friday','Markets',['A slider that measures markets back a day at a time, up to a year','Each market\'s all-time high, and when it was']],
+   ['11 Nov',W,'The ring',['Today as a ring of sections that fill on their own scale','Tap a section to give it the whole ring']]]},
+ sky:{meta:['Personal, not commercial','Phone and iPad','Install it on your home screen'],
+  feats:[['map','The whole world, live','Every plane and ship on one map, grouped when you zoom out.'],
+   ['spark','Notable planes','Celebrities\' jets, leaders\' planes and spy planes, each group in its own colour.'],
+   ['flag','Services in their colours','Police, air ambulance, fire, coastguard and military, drawn in their real markings.'],
+   ['heart','Emergencies','Planes squawking an emergency, logged as they happen.'],
+   ['layers','Airlines','A box for each airline, with a picture of the plane type.'],
+   ['list','Ask it a sentence','Dropdowns that read as a sentence: what, which kind, doing what, and where.'],
+   ['hist','What was that?','Rewind what just flew over, with a weekly summary.'],
+   ['cal','On time or late','Whether a scheduled flight is running late.']],
+  log:[['18 Nov',W,'At sky.phillm.dev',['Now at sky.phillm.dev, on Render']],
+   ['16 Nov','Monday','Ships',['The ship relay uploads the whole world every 3 minutes']],
+   ['15 Nov','Sunday','Views you keep',['Save the whole sentence under a name','A fourth dropdown for where: anywhere, near me or a continent']],
+   ['15 Nov','Sunday','Emergencies and journeys',['An emergency log, checked every 2 minutes','Every flight an owner made in the last 30 or 90 days, on the map at once']],
+   ['15 Nov','Sunday','The whole world',['Opens on the whole world, with count bubbles when zoomed out','Military split by country']]]},
+ garden:{meta:['For Laura','iPhone and iPad','Saves on the device'],
+  feats:[['heart','Your garden\'s birds','Log every bird you see, and see which come most.'],
+   ['eye','A guide to UK birds','A profile and photo for each bird, with the whole bird on iPad.'],
+   ['music','Their songs','Play each bird\'s song and call.'],
+   ['sprout','Feeding and the garden','What to put out, and what to plant, to bring more birds in.'],
+   ['map','A map','Where each bird lives across the UK.'],
+   ['home','At the allotment too','Log sightings at the allotment as well as at home.']],
+  log:[['18 Nov',W,'The allotment and iPad',['Log sightings at the allotment','The full profile in the iPad panel, showing the whole bird','A split view for Explore on iPad']],
+   ['18 Nov',W,'At birds.phillm.dev',['Now at birds.phillm.dev','Raised, well, chip and glass surfaces across the app']],
+   ['5 Apr','Sunday','1.2',['Little success animations throughout','A button in Settings to get the latest version']],
+   ['5 Apr','Sunday','1.0',['First full version, with a changelog in Settings','A map that follows the theme']]]},
+ dispatch:{meta:['For me','Phone and iPad','No accounts, no tracking'],
+  feats:[['layers','Desks','AI models, hardware, cameras and lenses, electric cars, sport, science and games.'],
+   ['list','A measured news wire','The day\'s news without the shouting.'],
+   ['flag','Editorial filters','No tabloid verbs, no deal round-ups, and the same story from five outlets shown once.'],
+   ['users','No outlet hogs it','At most three stories from one outlet in a section.'],
+   ['hist','An archive for each desk','Two pages of stories on each desk, and everything older in its Archive tab.'],
+   ['sun','Weather','Today and the next five days, and which nights are clear.'],
+   ['trophy','Sport without spoilers','F1, golf and UFC built round fixtures, with results kept hidden until you want them.'],
+   ['spark','The AI map','Who is ahead, with real benchmark scores.']],
+  log:[['15 Nov','Sunday','Quieter',['The site warms its cache once a day instead of every ten minutes']],
+   ['11 Sep','Friday','Archives',['An archive for every desk']],
+   ['10 Sep','Thursday','Games',['A games desk, and a directory that isn\'t ranked by sales']],
+   ['9 Sep','Wednesday','The broadsheet',['A broadsheet front page on newsprint','Real benchmark scores on the AI map']],
+   ['7 Sep','Monday','Sport and weather',['Sport desks built round fixtures, with spoilers hidden','A weather desk that answers questions, like which nights are clear']]],
+  foot:'Every day it also updates its stores of stories.'},
+ plugin:{meta:['Firefox extension','Free','Nothing leaves your browser'],
+  feats:[['spark','One calm look','The sites you use every day, without the ads, pop-ups and upsells.'],
+   ['list','Every change is a switch','Keep anything you\'d rather have, or turn a site off.'],
+   ['eye','Hide anything','Point at it and it\'s gone, with a switch to bring it back.'],
+   ['trophy','Price history','A real chart on HotUKDeals and Amazon, so you know a deal is a deal.'],
+   ['layers','Reading mode','Articles, deals and posts as one roomy column.'],
+   ['palette','Your own CSS','Your own tweaks for each site, and your settings to export.'],
+   ['heart','Private','No analytics, ads, accounts or server.']],
+  log:[],foot:'Its changes aren\'t on GitHub, so there\'s no history here yet.'}
+};
+D.allotment={meta:['For Laura','iPad first','Saves on the device','Live since 19 Nov 2026'],
+  feats:[['box','Plan in 3D','Drag beds, paths, sheds and trees onto the plot and turn it to see it from any side.'],
+   ['sprout','Every plant drawn leaf by leaf','Vegetables, herbs and flowers each have a detailed model, with real photos in the plant guide.'],
+   ['cal','A year plan','Pick what to grow and it times sowing, planting and picking for each crop, then suggests a bed.'],
+   ['users','Shared plots','Mark which half or quarter is hers, and the planner only uses her beds.'],
+   ['home','Plan inside buildings','The roof lifts off the shed, outhouse and greenhouse so you can fit benches, shelves and pots.'],
+   ['pad','Walk and fly','Explore the plot like Minecraft: open the doors, walk inside and build from a hotbar.'],
+   ['list','Jobs and shopping lists','A calm to-do list for each plot, and tick-off lists for what to buy.'],
+   ['sun','Cosy weather and music','Warm low sun, soft shadows and lo-fi music while you plan.']],
+  log:[['19 Nov',Th,'Editing while you walk',['Hover over anything to see its name, tap to select it and resize it with steppers','Benches and deckchairs turn all four ways','Walking and flying start with an empty hand']],
+   ['19 Nov',Th,'Jobs and lists',['A Jobs list for each plot, with suggestions, pins on beds and little flags','Jobs and shopping lists share one button in the plot','Every crop, herb and flower drawn leaf by leaf']],
+   ['19 Nov',Th,'Doors and Minecraft moves',['Door styles, handles and finishes that all open properly','Bedrock speeds: sprint, sneak, jump and fly','Doorways through walls and glass, and building with a hotbar']],
+   ['19 Nov',Th,'Cosy light',['Cosy weather: a warm low sun and soft shadows','Move things freely, with Snap to the grid as a switch','Duplicate a bed with its rows and plants']],
+   ['19 Nov',Th,'First live version',['A 12-month year plan with bed suggestions','Shared plots and planning inside buildings','A real photo of every plant']]]};
+
+const sc=document.getElementById('sc'),panel=sc.querySelector('.sc__panel'),scroll=document.getElementById('scScroll');let last=null;
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const tab=k=>{sc.querySelectorAll('[data-pane]').forEach(b=>{const on=b.dataset.pane===k;b.setAttribute('aria-checked',on);b.setAttribute('aria-selected',on)});document.getElementById('paneF').classList.toggle('on',k==='f');document.getElementById('paneL').classList.toggle('on',k==='l')};
+sc.querySelectorAll('[data-pane]').forEach(b=>b.addEventListener('click',()=>{tab(b.dataset.pane);const t=sc.querySelector('.sc__tabs');if(scroll.scrollTop>t.offsetTop)scroll.scrollTop=t.offsetTop}));
+const galGo=n=>{const g=document.getElementById('scGal'),sl=g.querySelectorAll('.sl'),ds=g.querySelectorAll('.dot');if(!sl.length)return;n=Math.max(0,Math.min(sl.length-1,n));g.dataset.i=n;g.classList.toggle('at-first',n===0);g.classList.toggle('at-last',n===sl.length-1);sl.forEach((x,m)=>x.classList.toggle('on',m===n));ds.forEach((x,m)=>{x.classList.toggle('on',m===n);x.setAttribute('aria-pressed',m===n)})};
+document.getElementById('scGal').addEventListener('click',e=>{const g=e.currentTarget,i=+g.dataset.i||0;if(e.target.closest('.next'))galGo(i+1);else if(e.target.closest('.prev'))galGo(i-1);else{const d=e.target.closest('.dot');if(d)galGo([...g.querySelectorAll('.dot')].indexOf(d))}});
+(()=>{const g=document.getElementById('scGal');let x0=null;g.addEventListener('touchstart',e=>{x0=e.touches[0].clientX},{passive:true});g.addEventListener('touchend',e=>{if(x0==null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40)galGo((+g.dataset.i||0)+(dx<0?1:-1));x0=null})})();
+function open(card,key){const d=D[key];last=card;
+ const name=card.querySelector('h2').firstChild.textContent.trim(),line=card.querySelector('p').textContent,a=card.querySelector('a.link');
+ panel.style.setProperty('--sc',getComputedStyle(card).getPropertyValue('--c'));
+ const imgs=[...card.querySelectorAll('.art img')];
+ const gal=document.getElementById('scGal');gal.innerHTML=imgs.map((im,i)=>`<div class="sl ${i?'ph':'pad'}${i?'':' on'}"><img src="${im.getAttribute('src')}" alt="${esc(im.alt)}"></div>`).join('')+(imgs.length>1?`<button class="nav prev" type="button" aria-label="iPad view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="nav next" type="button" aria-label="iPhone view"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><div class="dots"><button class="dot on" type="button" aria-label="iPad view"></button><button class="dot" type="button" aria-label="iPhone view"></button></div>`:'');galGo(0);
+ document.getElementById('scTitle').textContent=name;document.getElementById('scLine').textContent=line;
+ const go=document.getElementById('scGo');if(a){go.href=a.href;go.classList.remove('off');go.innerHTML=`Open ${esc(a.querySelector('span').textContent)} <span class="ar">↗</span>`}else{go.removeAttribute('href');go.classList.add('off');go.textContent='Not public yet'}
+ document.getElementById('scMeta').innerHTML=d.meta.map(m=>`<span>${esc(m)}</span>`).join('');
+ document.getElementById('scFeats').innerHTML=d.feats.map(([ic,t,s],k)=>`<li style="--k:${k}"><span class="ic"><svg viewBox="0 0 24 24">${I[ic]}</svg></span><b>${esc(t)}</b><span>${esc(s)}</span></li>`).join('');
+ document.getElementById('scLog').innerHTML=d.log.map(([dt,day,t,items],n)=>`<li><time>${dt}<small>${day}</small></time><div class="v"><h4>${esc(t)}${n?'':'<em>Latest</em>'}</h4><ul>${items.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></li>`).join('');
+ document.getElementById('scFoot').textContent=d.foot||'';
+ sc.querySelector('[data-pane="l"]').hidden=!d.log.length&&!d.foot;tab('f');scroll.scrollTop=0;panel.style.transform='';
+ document.documentElement.classList.add('sc-lock');sc.setAttribute('aria-hidden','false');sc.classList.add('open');setTimeout(()=>panel.focus({preventScroll:true}),30)}
+function close(){if(!sc.classList.contains('open'))return;sc.classList.remove('open');sc.setAttribute('aria-hidden','true');document.documentElement.classList.remove('sc-lock');panel.style.transform='';if(last)last.focus({preventScroll:true})}
+sc.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',close));
+document.addEventListener('keydown',e=>{if(!sc.classList.contains('open'))return;if(e.key==='Escape')close();if(e.key==='Tab'){const f=[...panel.querySelectorAll('button,a[href]')].filter(x=>x.offsetParent);const i=f.indexOf(document.activeElement);if(e.shiftKey&&i<=0){f[f.length-1].focus();e.preventDefault()}else if(!e.shiftKey&&i===f.length-1){f[0].focus();e.preventDefault()}}});
+// phone: drag the sheet down to close
+let y0=null,dy=0;panel.addEventListener('touchstart',e=>{if(innerWidth>620||scroll.scrollTop>0){y0=null;return}y0=e.touches[0].clientY;dy=0},{passive:true});
+panel.addEventListener('touchmove',e=>{if(y0==null)return;dy=Math.max(0,e.touches[0].clientY-y0);if(dy>0){panel.style.transition='none';panel.style.transform=`translateY(${dy}px)`}},{passive:true});
+panel.addEventListener('touchend',()=>{if(y0==null)return;panel.style.transition='';if(dy>110)close();else panel.style.transform='';y0=null});
+document.querySelectorAll('.card').forEach(card=>{const im=card.querySelector('.art img');const key=im&&(im.getAttribute('src').match(/shots\/([a-z]+)\.webp/)||[])[1];if(!D[key])return;
+ card.classList.add('has-sc');card.tabIndex=0;card.setAttribute('role','button');card.setAttribute('aria-label',card.querySelector('h2').textContent.trim()+': features and changes');
+ const h=card.querySelector('h2');h.insertAdjacentHTML('beforeend','<span class="more">Features <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>');
+ card.addEventListener('click',e=>{if(e.target.closest('a,.nav,.dots'))return;open(card,key)});
+ card.addEventListener('keydown',e=>{if(e.target!==card)return;if(e.key==='Enter'||e.key===' '){e.preventDefault();open(card,key)}})});
+})();
 </script>
 </body>
 </html>
