@@ -295,6 +295,13 @@ html.sc-lock,html.sc-lock body{overflow:hidden}
 .sc__more:focus-visible{outline:2px solid var(--t2);outline-offset:2px}
 .sc__foot{margin-top:10px;font-size:13.5px;color:var(--t3)}
 @media (max-width:760px){.feats{grid-template-columns:1fr}.log>li{grid-template-columns:1fr;gap:6px;padding-left:22px}.log>li::before{left:4px;top:22px}.log time{text-align:left;padding:0}.log time small{display:inline;margin-left:6px}.log .v{padding-left:0}.log .v::before{left:-22px;top:-20px}}
+
+/* timeline in order, without dates */
+.log>li{grid-template-columns:1fr;gap:0;padding:0 0 24px 28px}
+.log>li::before{left:4px;top:18px;bottom:-4px}
+.log .v{padding-left:0}
+.log .v::before{left:-28px;top:6px}
+.log:not(.all)>li:nth-child(4)::before,.log>li:last-child::before{display:none}
 /* phone: a sheet from the bottom */
 @media (max-width:620px){
   .sc{padding:0;place-items:end stretch}
@@ -654,10 +661,10 @@ D.silver.log=[D.silver.log[0],['18 Nov',W,'On GitHub',['Everything so far moves 
  ['25 Sep','Friday','Quests and the stable',['The menu hub, saved looks and the quest engine','The horse creator, and the other horses tied at the stable','14 kinds of animal and nine quests, from Hay for the Winter to The Scattered Keys']],
  ['24 Sep','Thursday','A proper game',['A real build, saves, and Continue or New game','A benchmark to keep it fast','The meadow and the lake']],
  ['Earlier','','Where it started',['A woodland about 240 m across round one looping path','A realistic rigged horse to ride, with weather and seasons']]];
-D.silver.foot='Before 24 September it was a single page, so there are no dates for the start.';
-D.sky.foot='Versions before v355, on 15 November, weren\'t kept, so its history starts there.';
-D.cards.foot='Its history starts when it moved to GitHub on 18 November.';
-D.references.foot='Its history starts when it moved to GitHub on 18 November.';
+D.silver.foot='';
+D.sky.foot='Versions before v355 weren\'t kept, so its history starts there.';
+D.cards.foot='Its history starts when it moved to GitHub.';
+D.references.foot='Its history starts when it moved to GitHub.';
 D.whatsnext.log.push(
  ['10 Nov','Tuesday','Today, your way',['Home\'s ring opens on what matters now, with pages for F1 and tomorrow','Weekly to dos can keep to a day','Swipe anything in Today to clear it for the rest of the day']],
  ['8 Nov','Sunday','Glass sheets',['Markets, Saved videos and Settings rise as sheets over the menu','Sheet titles pinned as frosted glass','Hidden amounts shown as a soft glow']],
@@ -689,7 +696,7 @@ function open(card,key){const d=D[key];last=card;
  const go=document.getElementById('scGo');if(a){go.href=a.href;go.classList.remove('off');go.innerHTML=`Open ${esc(a.querySelector('span').textContent)} <span class="ar">↗</span>`}else{go.removeAttribute('href');go.classList.add('off');go.textContent='Not public yet'}
  document.getElementById('scMeta').innerHTML=d.meta.map(m=>`<span>${esc(m)}</span>`).join('');
  document.getElementById('scFeats').innerHTML=d.feats.map(([ic,t,s],k)=>`<li style="--k:${k}"><span class="ic"><svg viewBox="0 0 24 24">${I[ic]}</svg></span><b>${esc(t)}</b><span>${esc(s)}</span></li>`).join('');
- const LOGN=4,row=([dt,day,t,items],n)=>`<li${n>=LOGN?' class="old"':''}><time>${dt}${day?`<small>${day}</small>`:''}</time><div class="v"><h4>${esc(t)}${n?'':'<em>Latest</em>'}</h4>${items.length?`<ul>${items.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}</div></li>`;
+ const LOGN=4,row=([dt,day,t,items],n)=>`<li${n>=LOGN?' class="old"':''}><div class="v"><h4>${esc(t)}${n?'':'<em>Latest</em>'}</h4>${items.length?`<ul>${items.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}</div></li>`;
  const lg=document.getElementById('scLog');lg.innerHTML=d.log.map(row).join('');lg.classList.remove('all');const more=document.getElementById('scMore'),rest=d.log.length-LOGN;more.hidden=rest<=0;more.textContent=`Show earlier (${rest})`;
  document.getElementById('scFoot').textContent=d.foot||'';
  sc.querySelector('[data-pane="l"]').hidden=!d.log.length&&!d.foot;tab('f');scroll.scrollTop=0;panel.style.transform='';
