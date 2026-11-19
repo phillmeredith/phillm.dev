@@ -285,6 +285,14 @@ html.sc-lock,html.sc-lock body{overflow:hidden}
 .log ul{list-style:none;display:grid;gap:7px}
 .log ul li{position:relative;padding-left:16px;font-size:14.5px;line-height:1.5;color:var(--t2)}
 .log ul li::before{content:'';position:absolute;left:2px;top:.68em;width:5px;height:5px;border-radius:50%;background:var(--t3)}
+.sc [hidden]{display:none!important}
+.log>li.old{display:none}
+.log:not(.all)>li:nth-child(4)::before{display:none}
+.log.all>li.old{display:grid;animation:rise .5s cubic-bezier(.2,.8,.2,1) both}
+.log h4:last-child{margin-bottom:0}
+.sc__more{display:inline-flex;align-items:center;height:40px;margin:2px 0 6px;padding:0 18px;border:0;border-radius:99px;background:var(--soft);color:var(--t1);font:600 14px/1 var(--sans);cursor:pointer;transition:background-color .2s}
+.sc__more:hover{background:var(--soft-hover)}
+.sc__more:focus-visible{outline:2px solid var(--t2);outline-offset:2px}
 .sc__foot{margin-top:10px;font-size:13.5px;color:var(--t3)}
 @media (max-width:760px){.feats{grid-template-columns:1fr}.log>li{grid-template-columns:1fr;gap:6px;padding-left:22px}.log>li::before{left:4px;top:22px}.log time{text-align:left;padding:0}.log time small{display:inline;margin-left:6px}.log .v{padding-left:0}.log .v::before{left:-22px;top:-20px}}
 /* phone: a sheet from the bottom */
@@ -414,7 +422,7 @@ html.sc-lock,html.sc-lock body{overflow:hidden}
       <div class="sc__gal" id="scGal"></div>
       <div class="sc__head"><h3 id="scTitle"></h3><a class="sc__go" id="scGo" target="_blank" rel="noopener"></a><p id="scLine"></p><div class="sc__meta" id="scMeta"></div></div>
       <div class="sc__tabs"><div class="seg" role="tablist" aria-label="Show"><button type="button" role="tab" data-pane="f" aria-checked="true" aria-selected="true">Features</button><button type="button" role="tab" data-pane="l" aria-checked="false" aria-selected="false">What's new</button></div></div>
-      <div class="sc__body"><div class="sc__pane on" id="paneF" role="tabpanel"><ul class="feats" id="scFeats"></ul></div><div class="sc__pane" id="paneL" role="tabpanel"><ol class="log" id="scLog"></ol><p class="sc__foot" id="scFoot"></p></div></div>
+      <div class="sc__body"><div class="sc__pane on" id="paneF" role="tabpanel"><ul class="feats" id="scFeats"></ul></div><div class="sc__pane" id="paneL" role="tabpanel"><ol class="log" id="scLog"></ol><button class="sc__more" id="scMore" type="button" hidden></button><p class="sc__foot" id="scFoot"></p></div></div>
     </div>
   </div>
 </div>
@@ -630,6 +638,41 @@ D.allotment={meta:['For Laura','iPad first','Saves on the device','Live since 19
    ['19 Nov',Th,'Cosy light',['Cosy weather: a warm low sun and soft shadows','Move things freely, with Snap to the grid as a switch','Duplicate a bed with its rows and plants']],
    ['19 Nov',Th,'First live version',['A 12-month year plan with bed suggestions','Shared plots and planning inside buildings','A real photo of every plant']]]};
 
+// the rest of each app's history, back to its first version
+D.kingdom.log.splice(2,0,['1 Apr','Wednesday','Skin editor',['Show or hide body parts while painting','A 1-pixel brush, and a better eyedropper']]);
+D.garden.log.push(
+ ['4 Apr','Saturday','Sounds and themes',['468 more bird songs and calls','Identify: by where you are, size, behaviour, markings and colour','Themes that change every surface, with Forest first','Rare visitors taken out, so the guide is the birds you\'ll see']],
+ ['3 Apr','Friday','First version',['576 birds, each with a picture','Bird sounds','Identify a bird from a photo']]);
+D.dispatch.log.push(
+ ['8 Sep','Tuesday','Tidier on a phone',['The section menu and desk tabs no longer wrap','More than headlines on the science desk']],
+ ['6 Sep','Sunday','On a phone',['The paper fits a phone, with a menu that shows every desk','Section fronts about their subject']],
+ ['5 Sep','Saturday','First version',['A personal reader across ten desks','Each sport with its own desk, results and highlights','Stories ranked by how new they are, not who filed them']]);
+D.mod.log.push(['17 Nov','Tuesday','First version',['Harry\'s Beta Testing: bug reports from the iPad in a few taps','Fuller reports: the hand, the last thing done, what\'s on screen and the version','One report a day, with a friendly note and save for tomorrow','Harry\'s Equestrian 4.0.6 to download']]);
+D.silver.log=[D.silver.log[0],['18 Nov',W,'On GitHub',['Everything so far moves to GitHub']],
+ ['Oct to Nov','','Breeds, the herd and more',['15 breeds and every part of the body, with painting on the coat','The wild herd of Hollow Vale, the races and the horse\'s own life','My own music on the radio']],
+ ['25 Sep','Friday','Thistledown Isle',['The wood becomes the middle of an island about 1.1 km across','The Tors, Hollow Vale and its stream, beaches and the sea','The North Bridge, and the finale: The Bridge to the Wild','Leaves cost half as much, so it runs far faster']],
+ ['25 Sep','Friday','Quests and the stable',['The menu hub, saved looks and the quest engine','The horse creator, and the other horses tied at the stable','14 kinds of animal and nine quests, from Hay for the Winter to The Scattered Keys']],
+ ['24 Sep','Thursday','A proper game',['A real build, saves, and Continue or New game','A benchmark to keep it fast','The meadow and the lake']],
+ ['Earlier','','Where it started',['A woodland about 240 m across round one looping path','A realistic rigged horse to ride, with weather and seasons']]];
+D.silver.foot='Before 24 September it was a single page, so there are no dates for the start.';
+D.sky.foot='Versions before v355, on 15 November, weren\'t kept, so its history starts there.';
+D.cards.foot='Its history starts when it moved to GitHub on 18 November.';
+D.references.foot='Its history starts when it moved to GitHub on 18 November.';
+D.whatsnext.log.push(
+ ['10 Nov','Tuesday','Today, your way',['Home\'s ring opens on what matters now, with pages for F1 and tomorrow','Weekly to dos can keep to a day','Swipe anything in Today to clear it for the rest of the day']],
+ ['8 Nov','Sunday','Glass sheets',['Markets, Saved videos and Settings rise as sheets over the menu','Sheet titles pinned as frosted glass','Hidden amounts shown as a soft glow']],
+ ['7 Nov','Saturday','Saved videos',['Save videos straight from Home','Food shops marked under the date, with a times-a-month rhythm']],
+ ['5 Nov','Thursday','Projects and tasks',['Projects with a next step, sub steps, photos, links and notes','Tasks sectioned Today, This week and Whenever there\'s time','Do now pulls part of a task onto Home','Bundles: named lists gathered up over time']],
+ ['4 Nov','Wednesday','Lists and People',['To dos and repeating tasks, with a ring on Home','Everyone in People from A to Z, with gift ideas','F1 sessions get their own card on the day','A safety copy of everything, in case the data is ever swapped']],
+ ['3 Nov','Tuesday','Days out',['A card for a day out, saying when everyone\'s due home','Tap to ring or copy, and haptics on iPhone']],
+ ['29 Oct','Thursday','Deliveries and Grab',['Food arriving, tracked on a little map as the van comes','Grab: send a video as a link with no account, or save it to Photos','Sheets that move like real objects and can be caught mid-slide','Ticking off a to do draws the tick, then folds it away']],
+ ['28 Oct','Wednesday','The glass redesign',['A glass look, with a heads-up Home','Date tiles everywhere, F1 and markets']],
+ ['21 Mar','Saturday','First version',['A finance and life organiser']]);
+D.plugin.feats.splice(1,0,['layers','Seven sites','X, Reddit, YouTube, Gmail, BBC, Daily Mail and HotUKDeals.']);
+D.plugin.feats=D.plugin.feats.filter(f=>f[1]!=='Reading mode');
+D.plugin.log=[['11 Nov','Wednesday','0.8.8 and 0.8.9',[]],['8 Oct','Thursday','0.8.3 to 0.8.7',[]],['7 Oct','Wednesday','0.8.1 and 0.8.2',[]],['6 Oct','Tuesday','0.7.1',[]],['5 Oct','Monday','0.5.10 to 0.6.4',[]],['4 Oct','Sunday','0.4.3 to 0.5.9',[]],['3 Oct','Saturday','0.3.13 to 0.4.2',[]],['2 Oct','Friday','0.3.9 to 0.3.11',[]],['1 Oct','Thursday','0.2.9 to 0.3.7',[]],['30 Sep','Wednesday','First builds',['0.2.1 to 0.2.7']]];
+D.plugin.foot='Its history is its builds, so there are no notes for each version.';
+
 const sc=document.getElementById('sc'),panel=sc.querySelector('.sc__panel'),scroll=document.getElementById('scScroll');let last=null;
 const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 const tab=k=>{sc.querySelectorAll('[data-pane]').forEach(b=>{const on=b.dataset.pane===k;b.setAttribute('aria-checked',on);b.setAttribute('aria-selected',on)});document.getElementById('paneF').classList.toggle('on',k==='f');document.getElementById('paneL').classList.toggle('on',k==='l')};
@@ -646,12 +689,14 @@ function open(card,key){const d=D[key];last=card;
  const go=document.getElementById('scGo');if(a){go.href=a.href;go.classList.remove('off');go.innerHTML=`Open ${esc(a.querySelector('span').textContent)} <span class="ar">↗</span>`}else{go.removeAttribute('href');go.classList.add('off');go.textContent='Not public yet'}
  document.getElementById('scMeta').innerHTML=d.meta.map(m=>`<span>${esc(m)}</span>`).join('');
  document.getElementById('scFeats').innerHTML=d.feats.map(([ic,t,s],k)=>`<li style="--k:${k}"><span class="ic"><svg viewBox="0 0 24 24">${I[ic]}</svg></span><b>${esc(t)}</b><span>${esc(s)}</span></li>`).join('');
- document.getElementById('scLog').innerHTML=d.log.map(([dt,day,t,items],n)=>`<li><time>${dt}<small>${day}</small></time><div class="v"><h4>${esc(t)}${n?'':'<em>Latest</em>'}</h4><ul>${items.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></li>`).join('');
+ const LOGN=4,row=([dt,day,t,items],n)=>`<li${n>=LOGN?' class="old"':''}><time>${dt}${day?`<small>${day}</small>`:''}</time><div class="v"><h4>${esc(t)}${n?'':'<em>Latest</em>'}</h4>${items.length?`<ul>${items.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}</div></li>`;
+ const lg=document.getElementById('scLog');lg.innerHTML=d.log.map(row).join('');lg.classList.remove('all');const more=document.getElementById('scMore'),rest=d.log.length-LOGN;more.hidden=rest<=0;more.textContent=`Show earlier (${rest})`;
  document.getElementById('scFoot').textContent=d.foot||'';
  sc.querySelector('[data-pane="l"]').hidden=!d.log.length&&!d.foot;tab('f');scroll.scrollTop=0;panel.style.transform='';
  document.documentElement.classList.add('sc-lock');sc.setAttribute('aria-hidden','false');sc.classList.add('open');setTimeout(()=>panel.focus({preventScroll:true}),30)}
 function close(){if(!sc.classList.contains('open'))return;sc.classList.remove('open');sc.setAttribute('aria-hidden','true');document.documentElement.classList.remove('sc-lock');panel.style.transform='';if(last)last.focus({preventScroll:true})}
 sc.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',close));
+document.getElementById('scMore').addEventListener('click',e=>{document.getElementById('scLog').classList.add('all');e.currentTarget.hidden=true});
 document.addEventListener('keydown',e=>{if(!sc.classList.contains('open'))return;if(e.key==='Escape')close();if(e.key==='Tab'){const f=[...panel.querySelectorAll('button,a[href]')].filter(x=>x.offsetParent);const i=f.indexOf(document.activeElement);if(e.shiftKey&&i<=0){f[f.length-1].focus();e.preventDefault()}else if(!e.shiftKey&&i===f.length-1){f[0].focus();e.preventDefault()}}});
 // phone: drag the sheet down to close
 let y0=null,dy=0;panel.addEventListener('touchstart',e=>{if(innerWidth>620||scroll.scrollTop>0){y0=null;return}y0=e.touches[0].clientY;dy=0},{passive:true});
